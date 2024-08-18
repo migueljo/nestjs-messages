@@ -1,0 +1,15 @@
+# This uses the "REST Client" extension for VS Code
+### List all messages
+GET http://localhost:3000/messages
+
+### Create a new message
+POST http://localhost:3000/messages 
+content-type: application/json
+
+{ "content": "Hello World" }
+
+### Delete a message
+DELETE http://localhost:3000/messages/12334
+
+### Get a message
+GET http://localhost:3000/messages/1234
