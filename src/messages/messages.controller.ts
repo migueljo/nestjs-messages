@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Post } from '@nestjs/common';
+import { Controller, Delete, Get, Post, Param, Body } from '@nestjs/common';
 
 @Controller('messages')
 export class MessagesController {
@@ -7,12 +7,13 @@ export class MessagesController {
     return 'All messages';
   }
   @Post()
-  createMessage() {
-    return 'Create message';
+  createMessage(@Body() body: any) {
+    console.log(body);
+    return `Create message: ${body.content}`;
   }
   @Delete('/:id')
-  deleteMessage() {
-    return 'Delete message';
+  deleteMessage(@Param('id') id: string) {
+    return `Delete message ${id}`;
   }
   @Get('/:id')
   getMessage() {
