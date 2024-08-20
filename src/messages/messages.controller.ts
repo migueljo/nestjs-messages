@@ -1,23 +1,33 @@
 import { Controller, Delete, Get, Post, Param, Body } from '@nestjs/common';
+import { MessagesService } from './messages.service';
 
 import { CreateMessageDTO } from './dtos/create-message.dto';
 
 @Controller('messages')
 export class MessagesController {
+  messagesService: MessagesService;
+
+  constructor() {
+    // Controller is creating its own dependencies
+    // DON'T DO THIS IN REAL APPS, USE DEPENDENCY INJECTION
+    this.messagesService = new MessagesService();
+  }
+
   @Get()
   listMessages() {
-    return 'All messages';
+    return this.messagesService.findAll();
   }
   @Post()
   createMessage(@Body() body: CreateMessageDTO) {
-    return `Create message: ${body.content}`;
+    return this.messagesService.create(body.content);
   }
   @Delete('/:id')
   deleteMessage(@Param('id') id: string) {
-    return `Delete message ${id}`;
+    return this.messagesService.delete(id);
   }
   @Get('/:id')
-  getMessage() {
-    return 'Get message';
+  async getMessage(@Param('id') id: string) {
+    const message = await this.messagesService.findOne(id);
+    return message ?? 'Not found';
   }
 }

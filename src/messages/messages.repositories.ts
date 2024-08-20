@@ -1,13 +1,12 @@
 import { readFile, writeFile } from 'fs/promises';
-import path from 'path';
 
-const messagesFilePath = path.resolve('../../', 'messages.json');
+const messagesFilePath = 'messages.json';
 
 export class MessagesRepository {
   async findOne(id: string) {
     const contents = await readFile(messagesFilePath, 'utf8');
     const messages = JSON.parse(contents);
-    return messages[id] ?? null;
+    return messages[id];
   }
   async findAll() {
     const contents = await readFile(messagesFilePath, 'utf8');
@@ -21,5 +20,12 @@ export class MessagesRepository {
     messages[id] = { id, content };
     await writeFile(messagesFilePath, JSON.stringify(messages));
     return messages[id];
+  }
+  async delete(id: string) {
+    const contents = await readFile(messagesFilePath, 'utf8');
+    const messages = JSON.parse(contents);
+    delete messages[id];
+    await writeFile(messagesFilePath, JSON.stringify(messages));
+    return true;
   }
 }

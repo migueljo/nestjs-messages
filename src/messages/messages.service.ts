@@ -20,4 +20,8 @@ export class MessagesService {
   create(content: string) {
     return this.messagesRepository.create(content);
   }
+
+  delete(id: string) {
+    return this.messagesRepository.delete(id);
+  }
 }
