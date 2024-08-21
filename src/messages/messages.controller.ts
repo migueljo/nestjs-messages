@@ -13,13 +13,7 @@ import { CreateMessageDTO } from './dtos/create-message.dto';
 
 @Controller('messages')
 export class MessagesController {
-  messagesService: MessagesService;
-
-  constructor() {
-    // Controller is creating its own dependencies
-    // DON'T DO THIS IN REAL APPS, USE DEPENDENCY INJECTION
-    this.messagesService = new MessagesService();
-  }
+  constructor(public messagesService: MessagesService) {}
 
   @Get()
   listMessages() {
@@ -37,7 +31,7 @@ export class MessagesController {
   async getMessage(@Param('id') id: string) {
     const message = await this.messagesService.findOne(id);
     if (!message) {
-      throw new NotFoundException();
+      throw new NotFoundException('message not found');
     }
     return message;
   }
